@@ -31,7 +31,7 @@ def copyFrame(inputFrame,outputFrame):
     if not os.path.isfile(src):
         return False
     copyfile(src, dst)
-    if outputFrame%20 == 19:
+    if outputFrame%1000 == 999:
         print(str(outputFrame+1)+" time-altered frames saved.")
     return True
 
@@ -40,7 +40,6 @@ def inputToOutputFilename(filename):
     return filename[:dotIndex]+"_ALTERED"+filename[dotIndex:]
 
 def createPath(s):
-    #assert (not os.path.exists(s)), "The filepath "+s+" already exists. Don't want to overwrite it. Aborting."
     try:  
         os.mkdir(s)
     except OSError:  
@@ -50,7 +49,7 @@ def deletePath(s): # Dangerous! Watch out!
     try:  
         rmtree(s,ignore_errors=False)
     except OSError:  
-        print ("Deletion of the directory %s failed" % s)
+        print("Deletion of the directory {} failed".format(s))
         print(OSError)
 
 parser = argparse.ArgumentParser(description='Modifies a video file to play at different speeds when there is sound vs. silence.')
