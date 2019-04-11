@@ -1,16 +1,18 @@
-from contextlib import closing
-from PIL import Image
+import argparse
+import math
+import os
+import re
 import subprocess
+from contextlib import closing
+from shutil import copyfile, rmtree
+
+import numpy as np
 from audiotsm import phasevocoder
 from audiotsm.io.wav import WavReader, WavWriter
-from scipy.io import wavfile
-import numpy as np
-import re
-import math
-from shutil import copyfile, rmtree
-import os
-import argparse
+from PIL import Image
 from pytube import YouTube
+from scipy.io import wavfile
+
 
 def downloadFile(url):
     name = YouTube(url).streams.first().download()
@@ -201,4 +203,3 @@ command = "ffmpeg -framerate "+str(frameRate)+" -i "+TEMP_FOLDER+"/newFrame%06d.
 subprocess.call(command, shell=True)
 
 deletePath(TEMP_FOLDER)
-
