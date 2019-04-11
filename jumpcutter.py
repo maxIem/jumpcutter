@@ -15,17 +15,32 @@ from scipy.io import wavfile
 
 
 def downloadFile(url):
+    """
+    Downloads a video file from YouTube.
+
+    Returns:         
+        - The name of the video file.
+    """
     name = YouTube(url).streams.first().download()
     newname = name.replace(' ','_')
     os.rename(name,newname)
     return newname
 
 def getMaxVolume(s):
+    """
+    Gets the max volume of an audio chunk.
+    """
     maxv = float(np.max(s))
     minv = float(np.min(s))
     return max(maxv,-minv)
 
 def copyFrame(inputFrame,outputFrame):
+    """
+    Copies a frame from the input video file to the destination.
+    
+    Returns:
+        Whether the function succeeded or not.
+    """
     src = TEMP_FOLDER+"/frame{:06d}".format(inputFrame+1)+".jpg"
     dst = TEMP_FOLDER+"/newFrame{:06d}".format(outputFrame+1)+".jpg"
     if not os.path.isfile(src):
@@ -36,16 +51,19 @@ def copyFrame(inputFrame,outputFrame):
     return True
 
 def inputToOutputFilename(filename):
+    """Generates a new frame name""" 
     dotIndex = filename.rfind(".")
     return filename[:dotIndex]+"_ALTERED"+filename[dotIndex:]
 
 def createPath(s):
+    """Abstracts os.mkdir with an error handler.""" 
     try:  
         os.mkdir(s)
     except OSError:  
         assert False, "Creation of the directory %s failed. (The TEMP folder may already exist. Delete or rename it, and try again.)"
 
 def deletePath(s): # Dangerous! Watch out!
+    """Abstracts folder deletion.""" 
     try:  
         rmtree(s,ignore_errors=False)
     except OSError:  
